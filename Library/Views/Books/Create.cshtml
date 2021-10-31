@@ -1,0 +1,12 @@
+@model Library.Models.Book
+
+<h2> Add a Book </h2>
+@using (Html.BeginForm())
+{
+  <label for="Title"> Title: </label>
+  @Html.TextBoxFor(model => model.Title)
+  <label for="Description"> Description: </label>
+  @Html.TextBoxFor(model => model.Description)
+  <input type="submit" value="Add Book" class="btn btn-default"/>
+}
+<p>@Html.ActionLink("Books List", "Index")</p>

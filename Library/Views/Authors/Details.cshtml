@@ -19,7 +19,7 @@ else
   }
   </ul>
 }
-
+<p>@Html.ActionLink("Add a book", "AddBook", new {id = Model.AuthorId})</p>
 <p>@Html.ActionLink("Back to Authors", "Index")</p>
 <p>@Html.ActionLink("Edit Author", "Edit", new { id = Model.AuthorId })</p>
 <p>@Html.ActionLink("Delete Author", "Delete", new { id = Model.AuthorId })</p>

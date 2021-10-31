@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Library.Models;
 using System.Collections.Generic;
@@ -67,6 +68,33 @@ namespace Library.Controllers
     {
       var thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
       _db.Authors.Remove(thisAuthor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddBook(int id)
+    {
+      var thisAuthor = _db.Authors.FirstOrDefault(author => author.AuthorId == id);
+      ViewBag.BookId = new SelectList(_db.Books, "BookId", "Title");
+      return View(thisAuthor);
+    }
+
+    [HttpPost]
+    public ActionResult AddBook(Author author, int BookId)
+    {
+      if (BookId != 0)
+      {
+        _db.AuthorBook.Add(new AuthorBook() { BookId = BookId, AuthorId = author.AuthorId});
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult DeleteBook(int joinId)
+    {
+      var joinEntry = _db.AuthorBook.FirstOrDefault(entry => entry.AuthorBookId == joinId);
+      _db.AuthorBook.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
