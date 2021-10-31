@@ -39,5 +39,75 @@ namespace Library.Controllers
 			_db.SaveChanges();
 			return RedirectToAction("Index");
 		}
+
+		public ActionResult Edit(int id)
+		{
+			var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+			ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+			return View(thisBook);
+		}
+
+		[HttpPost]
+		public ActionResult Edit(Book book, int AuthorId)
+		{
+			if (AuthorId != 0)
+			{
+				_db.AuthorBook.Add(new AuthorBook() { AuthorId = AuthorId, BookId = book.BookId });
+			}
+			_db.Entry(book).State = EntityState.Modified;
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		public ActionResult Details(int id)
+		{
+			var thisBook = _db.Books
+				.Include(book => book.JoinEntities)
+				.ThenInclude(join => join.Author)
+				.FirstOrDefault(book => book.BookId ==id);
+			return View(thisBook);
+		}
+
+		public ActionResult AddAuthor(int id)
+		{
+			var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
+			ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
+			return View(thisBook);
+		}
+
+		[HttpPost]
+		public ActionResult AddAuthor(Book book, int AuthorId)
+		{
+			if (AuthorId != 0)
+			{
+				_db.AuthorBook.Add(new AuthorBook() { AuthorId = AuthorId, BookId = book.BookId});
+			}
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		public ActionResult Delete(int id)
+		{
+			var thisBook = _db.Books.FirstOrDefault(book => book.BookId ==id );
+			return View(thisBook);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			var thisBook = _db.Books.FirstOrDefault( book => book.BookId == id );
+			_db.Books.Remove(thisBook);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public ActionResult DeleteAuthor(int joinId)
+		{
+			var joinEntry = _db.AuthorBook.FirstOrDefault(entry => entry.AuthorBookId == joinId );
+			_db.AuthorBook.Remove(joinEntry);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
 	}
 }
