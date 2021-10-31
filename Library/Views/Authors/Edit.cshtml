@@ -1,0 +1,16 @@
+@model Library.Models.Author
+
+<h2>Edit </h2>
+
+<h3> Edit Author : @Html.DisplayFor(model => model.Name)</h3>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.AuthorId)
+  <label for="Name"> select Name: </label>
+  @Html.EditorFor(model => model.Name)
+  @Html.LabelFor(model => model.DateOfBirth)
+	@Html.EditorFor(m => m.DateOfBirth)
+  <input type="submit" value="Save" />
+}
+<p>@Html.ActionLink("back to Authors", "Index")</p>
