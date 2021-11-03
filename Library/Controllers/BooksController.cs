@@ -54,17 +54,12 @@ namespace Library.Controllers
 		public ActionResult Edit(int id)
 		{
 			var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
-			ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "Name");
 			return View(thisBook);
 		}
 
 		[HttpPost]
 		public ActionResult Edit(Book book, int AuthorId)
 		{
-			if (AuthorId != 0)
-			{
-				_db.AuthorBook.Add(new AuthorBook() { AuthorId = AuthorId, BookId = book.BookId });
-			}
 			_db.Entry(book).State = EntityState.Modified;
 			_db.SaveChanges();
 			return RedirectToAction("Index");
@@ -88,10 +83,13 @@ namespace Library.Controllers
 
 		[HttpPost]
 		public ActionResult AddAuthor(Book book, int AuthorId)
-		{
+		{	
 			if (AuthorId != 0)
 			{
+				if (_db.AuthorBook.Any(x => x.AuthorId == AuthorId && x.BookId == book.BookId) == false)
+			{
 				_db.AuthorBook.Add(new AuthorBook() { AuthorId = AuthorId, BookId = book.BookId});
+			}
 			}
 			_db.SaveChanges();
 			return RedirectToAction("Index");

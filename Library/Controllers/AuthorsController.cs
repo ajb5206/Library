@@ -86,7 +86,10 @@ namespace Library.Controllers
     {
       if (BookId != 0)
       {
+        if(_db.AuthorBook.Any(x => x.BookId == BookId && x.AuthorId == author.AuthorId) == false)
+        {
         _db.AuthorBook.Add(new AuthorBook() { BookId = BookId, AuthorId = author.AuthorId});
+      }
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
