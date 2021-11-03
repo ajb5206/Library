@@ -11,6 +11,8 @@ namespace Library.Models
     public int BookId {get; set;}
     public string Title { get; set;}
     public string Description { get; set;}
+
+    public bool IsCheckedOut { get; set; }
     public virtual ApplicationUser User {get; set;}
 
     public virtual ICollection <AuthorBook> JoinEntities {get; set;}

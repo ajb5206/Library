@@ -11,7 +11,8 @@
   @Html.EditorFor(model => model.Title)
   <label for ="Description"> Description </label>
   @Html.EditorFor(model => model.Description)
-
+  @Html.CheckBoxFor(m => m.IsCheckedOut)
+  <label for ="IsCheckedOut">Is this book checked out?</label>
   <input type="submit" value="Save" />
   
 }
