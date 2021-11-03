@@ -31,6 +31,7 @@ namespace Library.Controllers {
       };
       IdentityResult result = await _userManager.CreateAsync(user, model.Password);
       if (result.Succeeded) {
+        await _userManager.AddToRoleAsync(user, model.Role);
         return RedirectToAction("Index");
       } else {
         return View();

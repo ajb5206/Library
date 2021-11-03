@@ -4,6 +4,11 @@
 
 @using Library.Models;
 @model List<Library.Models.Book>;
+@using (Html.BeginForm())
+{
+	<p>Title : @Html.TextBox("SearchString")
+	<input type = "submit" value = "Search"/> </p>
+}
 
 	<h1>Books</h1>
 

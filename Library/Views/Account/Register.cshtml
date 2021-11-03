@@ -19,5 +19,11 @@
     <label for="ConfirmPassword">Confirm:</label>
     @Html.PasswordFor(user=> user.ConfirmPassword)
 
+    <label for="Role">Role:</label>
+    <select name="Role" id="Role">
+    <option value="Librarian">Librarian</option>
+    <option value="Patron">Patron</option>
+    </select>
+
     <input type="submit" value="Register" />
 }

@@ -22,9 +22,14 @@ namespace Library.Controllers
 			_db = db;
 		}
 		[AllowAnonymous]
-		public ActionResult Index()
+		public ActionResult Index(string searchString)
 		{
-			return View(_db.Books.ToList());
+			IQueryable<Book> model = _db.Books;
+			if(!string.IsNullOrEmpty(searchString))
+			{
+				model = model.Where(model => model.Title.Contains(searchString));
+			}
+			return View(model.ToList());
 		}
 
 		public ActionResult Create()
